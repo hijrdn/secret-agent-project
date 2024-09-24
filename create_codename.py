@@ -1,40 +1,59 @@
 # Creates a secret codename for the user
-# Opportunity for the user to opt out
-start = input("Do you want to become a secret agent? Y / N ")
+# Organize text options in a dictionary for simpler code organization
 
+intro_text = {'Q1': 'Do you want to become a secret agent? (Y / N)\n',
+              'Y': 'Welcome to the agency. Lets setup your codename.',
+              'city': 'Pick a random city: ',
+              'zipcode': 'Pick two digits from your current zipcode: ',
+              'dishware': 'Pick a utensil or dishware: ',
+              'N': 'Understandable. You wont remember this. But I will....',
+              'initialize': 'Initializing agent profile.',
+              'dots': '.....',
+              'hello': 'Hello, Agent.',}
+menu_text = {'gen': 'What do you need? (money / weapons / firing range)\n',
+             'money': 'Your bank account balance is $5,000,020.40.',
+             'weapons': 'You have two custom 9mm pistols, an M14, and three throwing knives. As well as some surpressors.',
+             'firing range': 'Welcome to the firing range.',
+             'next': 'What would you like to do next?',
+             'loop': '(menu / leave)\n',
+             'leave': 'Best of luck out there, Agent.',}
+
+# Opportunity for the user to opt out
+start = input(intro_text['Q1'])
 # Code for answer Y
 if start == "Y":
-
     # Prints text to welcome the user
-    print("Welcome to the agency. Let's setup your codename.")
+    print(intro_text['Y'])
 
     # 3 questions for the user
-    city = input("Pick a random city: ")
-    zipcode = input("Pick two digits from your current zipcode: ")
-    dishware = input("Pick a utensil or dishware: ")
+    city = input(intro_text['city'])
+    zipcode = input(intro_text['zipcode'])
+    dishware = input(intro_text['dishware'])
 
     agent_name = dishware + zipcode + city
 
     # Creates the codename for the user
-    print("Initializing agent profile.")
-    print(".....")
-    print(f"Hello, Agent {agent_name}.")
+    print(intro_text['initialize'])
+    print(intro_text['dots'])
+    print(intro_text['hello'])
+    print(agent_name)
 
     # Prompt agent with a menu
-    print("What would you like to do next?")
-    selection = input("Menu / Leave ")
+    print(menu_text['next'])
+    selection = input(menu_text['loop'])
 
-    while selection == "Menu":
-        menu = input("Things move quickly. What do you need? Money or weapons? ")
+    while selection == "menu":
+        menu = input(menu_text['gen'])
         if menu == "money":
-            print("Your bank account balance is $5,000,020.40.")
+            print(menu_text['money'])
         elif menu == "weapons":
-            print("You have two custom 9mm pistols, an M14, and three throwing knives. As well as some surpressors.")
+            print(menu_text['weapons'])
+        elif menu == "firing range":
+            print(menu_text['firing range'])
         else:
-            print("What would you like to do next? ")
-            selection = input("Menu / Leave ")
-    print(f"Best of luck out there, Agent {agent_name}.")
-        
-# Code for answer N
+            print(menu_text['next'])
+            selection = input(menu_text['loop'])
+    print(menu_text['leave'])
+
 else:
-    print("Understandable. You won't remember this. But I will....")
+    print(intro_text['N'])
