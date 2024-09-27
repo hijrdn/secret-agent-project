@@ -1,41 +1,42 @@
-#boilerplate basic log-in from stackoverflow
 #import json 
 import json
 
-#function to prompt user info entry
-def login(usr):
-    uN = input("Name: ")
-    pW = input("Password: ")
-    #if user exists & password is correct
-    if uN in usr.keys():
-        if pW == usr[uN]:
-            print("Welcome back.")
-        #if user exist but password is wrong
+#Create Login Class
+class Login:
+    #function to initialize class attributes
+    def __init__(self):
+        #need a list of existing users if any; will need to create a function for this later
+        self.users = self.read_users()
+        #need to empty values related to user prompts
+        self.codename = None
+        self.password = None
+        self.last_name = None
+        
+    #function to prompt user to select a login method
+    def prompt_user(self):
+        uStatus = input("Do you have a username? (Y / N)\n")
+            uJoin = input("Do you want to become a secret agent? (Y / N)\n")
+            if uJoin == "N":
+                print("Goodbye...you won't remember any of this.\n")
+                return
+            else:
+                self.new_user()
+        #will need to create a function for this later
         else:
-            print("Incorrect password.")
-            return False
-    #if user does not exist...write their info as a new user
-    else:
-        print("Hello, new person.")
-        usr[uN] = pW
+            self.existing_user()
 
-    writeUsers(usr)
-    return True
+    #if user indicates they are new, function to create profile
+    def new_user(self):
+        uCity = input("Enter a random city: ").replace(" ", "").upper()
+        uZip = input("Enter two digits: ")
+        uChar = input("Enter two letters: ").upper()
+        self.codename = uCity + uZip + uChar
+        self.password = input("Password: ").replace(" ", "").upper()
 
-def readUsers():
-    try:
-        with open("users.json", "r") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return {}
-
-def writeUsers(usr):
-    with open("users.json", "w+") as f:
-            json.dump(usr, f)
-#calls existing user data
-users = readUsers()
-#input user info
-success = login(users)
-
-while not success:
-    success = login(users)
+        #if codename entered is taken; exit; needs read_user function created later
+        if self.codename in self.users:
+            print("This codename is not available.\n")
+            return
+            
+        #next prompt so user can be referred to by last name
+        self.last_name = input("Enter your last name: ")
