@@ -69,3 +69,27 @@ class Login:
         self.write_users()
         #notification for user that profile is created; also for error catching
         print(f"Profile for Agent {self.last_name} initiated successfully...")
+
+    #function for existing_user login method
+    def existing_user(self):
+        #two inputs - codename + password
+        self.codename = input("Codename: ")
+        self.password = input("Password: ")
+
+        #codename must appear as a key in dictionary of users
+        if self.codename in self.users:
+            #password must match value for key in dictionary of users
+            if self.password == self.users[self.codename]:
+                #set profile variables to json dictionary for codename
+                #needs a load_profile function
+                user_profile = self.load_profile(self.codename)
+                #load last_name from dictionary
+                self.last_name = user_profile.get("last_name")
+                #print a confirmation method
+                print(f"Welcome back, Agent {self.last_name}.")
+            #if the password doesn't match
+            else:
+                print("Incorrect password...")
+        #if the codename isn't found
+        else:
+            print("Codename not found. Please try again or register with a recruiter.")
