@@ -3,16 +3,13 @@ import json
 
 #Create Login Class
 class Login:
-    #function to initialize class attributes
     def __init__(self):
         #need a list of existing users if any; will need to create a function for this later
         self.users = self.read_users()
-        #need to empty values related to user prompts
         self.codename = None
         self.password = None
         self.last_name = None
         
-    #function to prompt user to select a login method
     def prompt_user(self):
         uStatus = input("Do you have a username? (Y / N)\n")
             uJoin = input("Do you want to become a secret agent? (Y / N)\n")
@@ -21,11 +18,9 @@ class Login:
                 return
             else:
                 self.new_user()
-        #will need to create a function for this later
         else:
             self.existing_user()
 
-    #if user indicates they are new, function to create profile
     def new_user(self):
         uCity = input("Enter a random city: ").replace(" ", "").upper()
         uZip = input("Enter two digits: ")
@@ -33,15 +28,12 @@ class Login:
         self.codename = uCity + uZip + uChar
         self.password = input("Password: ").replace(" ", "").upper()
 
-        #if codename entered is taken; exit; needs read_user function created later
         if self.codename in self.users:
             print("This codename is not available.\n")
             return
             
-        #next prompt so user can be referred to by last name
         self.last_name = input("Enter your last name: ")
 
-        #additional variables and default values that belong in the new user profile
         bank_balance = "10000"
         mission_count = "0"
         fr_shots = "0"
@@ -49,7 +41,6 @@ class Login:
         fr_score = "o"
         weapons = ["Glock 17", "Throwing Knife"]
 
-        #turn profile variables into a dictionary for use in json
         user_profile = {
             "last_name": self.last_name,
             "codename": self.codename,
@@ -70,15 +61,11 @@ class Login:
         #notification for user that profile is created; also for error catching
         print(f"Profile for Agent {self.last_name} initiated successfully...")
 
-    #function for existing_user login method
     def existing_user(self):
-        #two inputs - codename + password
         self.codename = input("Codename: ")
         self.password = input("Password: ")
 
-        #codename must appear as a key in dictionary of users
         if self.codename in self.users:
-            #password must match value for key in dictionary of users
             if self.password == self.users[self.codename]:
                 #set profile variables to json dictionary for codename
                 #needs a load_profile function
@@ -87,9 +74,16 @@ class Login:
                 self.last_name = user_profile.get("last_name")
                 #print a confirmation method
                 print(f"Welcome back, Agent {self.last_name}.")
-            #if the password doesn't match
             else:
                 print("Incorrect password...")
-        #if the codename isn't found
         else:
             print("Codename not found. Please try again or register with a recruiter.")
+            
+    def read_users(self):
+        #replace with your file path so program can locate users.json
+        try:
+            with open("/custom/path/to/users.json", "r") as f:
+                return json.load(f)
+        #if no file, return empty dict
+        except FileNotFoundError:
+            return {}
