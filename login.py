@@ -87,3 +87,8 @@ class Login:
         #if no file, return empty dict
         except FileNotFoundError:
             return {}
+
+    def write_users(self):
+        #replace with your file path so program can locate json
+        with open("/custom/path/to/users.json", "w") as f:
+            json.dump(self.users, f, indent=4)
